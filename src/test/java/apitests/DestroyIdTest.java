@@ -1,4 +1,4 @@
-package api;
+package apitests;
 
 import appmanager.TestBase;
 import org.testng.annotations.Test;
@@ -16,19 +16,21 @@ public class DestroyIdTest extends TestBase {
 
   @Test
   public void testDestroyId(){
-    //Delete tweet and after that check that user can't delete the same tweet
+    //Delete tweet
+
     Map<String,String> id = new HashMap<String,String>();
-    id.put("id", "879296039475449858");
+    id.put("id", twittId);
 
     given().auth().oauth(auth.consumerKey, auth.consumerSecret, auth.token, auth.tokenSecret)
             .contentType("application/json")
             .body(id)
-            .when().post(apiBase + "destroy/879296039475449858.json");
+            .when().post(apiBase + "destroy/" + twittId + ".json");
 
+    //check that user can't delete the same tweet
     given().auth().oauth(auth.consumerKey, auth.consumerSecret, auth.token, auth.tokenSecret)
             .contentType("application/json")
             .body(id)
-            .when().post(apiBase + "destroy/879296039475449858.json")
+            .when().post(apiBase + "destroy/" + twittId + ".json")
             .then()
             .body(containsString("No status found with that ID."))
             .statusCode(404);

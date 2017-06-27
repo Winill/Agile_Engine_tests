@@ -1,4 +1,4 @@
-package api;
+package apitests;
 
 import appmanager.TestBase;
 import org.testng.annotations.Test;
@@ -17,7 +17,7 @@ public class StatusesUpdateTest extends TestBase {
   @Test
   public void testDestroyId() {
 
-    //Add new tweet and after that check that user can't duplicate it
+    //Add new tweet  check that user can't duplicate it
     Map<String,String> message = new HashMap<String,String>();
     message.put("status", "test11");
 
@@ -26,10 +26,11 @@ public class StatusesUpdateTest extends TestBase {
             .body(message)
             .when().post(apiBase + "update.json?status=test11");
 
+    //check that user can't duplicate tweet
     given().auth().oauth(auth.consumerKey, auth.consumerSecret, auth.token, auth.tokenSecret)
             .contentType("application/json")
             .body(message)
-            .when().post(apiBase + "update.json?status=test10")
+            .when().post(apiBase + "update.json?status=test11")
             .then()
             .body(containsString("Status is a duplicate."))
             .statusCode(403);

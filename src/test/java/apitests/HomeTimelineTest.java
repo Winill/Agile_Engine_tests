@@ -1,4 +1,4 @@
-package api;
+package apitests;
 
 import appmanager.TestBase;
 import org.testng.annotations.Test;
